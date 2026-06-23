@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Prototype Club – Futsal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #A50044;
+      --blue:   #004D98;
+      --gold:   #EDBB00;
+      --dark:   #0a0a12;
+      --mid:    #141420;
+      --light:  #f4f4f6;
+      --gray:   #8a8a9a;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ─── TOP RIBBON ─────────────────────────────── */
+    .ribbon {
+      background: linear-gradient(90deg, var(--blue), var(--red));
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      color: #fff;
+    }
+    .ribbon a { color: var(--gold); text-decoration: none; }
+
+    /* ─── NAVBAR ─────────────────────────────────── */
+    nav {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue) 50%, var(--red) 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #fff;
+      box-shadow: 0 0 0 2px var(--gold);
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 3px;
+      color: #fff;
+      line-height: 1;
+    }
+    .logo-sub {
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: all .2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #fff;
+      background: rgba(255,255,255,0.07);
+    }
+    .nav-links a.active { color: var(--gold); }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn-tickets {
+      background: linear-gradient(135deg, var(--red), #c0003a);
+      color: #fff;
+      border: none;
+      padding: 9px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      text-decoration: none;
+    }
+    .btn-tickets:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(165,0,68,.45); }
+
+    .btn-shop {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 8px 18px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .15s;
+      text-decoration: none;
+    }
+    .btn-shop:hover { background: var(--gold); color: var(--dark); }
+
+    /* ─── HERO ───────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 88vh;
+      min-height: 560px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(160deg, rgba(0,77,152,0.55) 0%, transparent 50%),
+        linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%),
+        url('https://images.unsplash.com/photo-1519861531473-9200262188bf?w=1600&q=80') center/cover no-repeat;
+      transform: scale(1.04);
+      animation: heroZoom 12s ease-out forwards;
+    }
+
+    @keyframes heroZoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1); }
+    }
+
+    /* diagonal stripe accent */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(170deg, transparent 49.5%, var(--dark) 50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 64px 80px;
+      max-width: 780px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 2px;
+      margin-bottom: 18px;
+      animation: fadeUp .7s .1s both;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .4; transform: scale(.6); }
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 9vw, 112px);
+      line-height: .93;
+      letter-spacing: 2px;
+      color: #fff;
+      animation: fadeUp .7s .2s both;
+    }
+    .hero h1 span { color: var(--gold); }
+
+    .hero-sub {
+      margin-top: 18px;
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.75);
+      max-width: 480px;
+      animation: fadeUp .7s .35s both;
+    }
+
+    .hero-ctas {
+      margin-top: 32px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeUp .7s .5s both;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      transition: all .2s;
+      border: 2px solid var(--red);
+    }
+    .btn-primary:hover { background: transparent; color: var(--red); }
+
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      border: 2px solid rgba(255,255,255,0.35);
+      transition: all .2s;
+    }
+    .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.07); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION SHARED ─────────────────────────── */
+    section { padding: 72px 64px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 60px);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: #fff;
+    }
+    .section-title span { color: var(--red); }
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--blue));
+      margin: 14px 0 36px;
+      border-radius: 2px;
+    }
+
+    /* ─── LIVE SCORE TICKER ───────────────────────── */
+    .ticker-wrap {
+      background: var(--mid);
+      border-top: 2px solid var(--red);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 0;
+    }
+    .ticker-inner {
+      display: flex;
+      align-items: stretch;
+    }
+    .ticker-label {
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+    .ticker-dot { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; animation: pulse 1.4s infinite; }
+
+    .ticker-scroll {
+      overflow: hidden;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      animation: tickScroll 28s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 40px;
+      border-right: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .ticker-score { font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: var(--gold); letter-spacing: 1px; }
+    .ticker-teams { color: rgba(255,255,255,0.8); }
+    .ticker-status { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; }
+    .ticker-status.live { background: var(--red); color: #fff; }
+    .ticker-status.ft   { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+    .ticker-status.upcoming { background: var(--blue); color: #fff; }
+
+    @keyframes tickScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── NEWS GRID ──────────────────────────────── */
+    .news-section { background: var(--mid); }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+
+    .news-card {
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--dark);
+      position: relative;
+      cursor: pointer;
+      transition: transform .25s;
+    }
+    .news-card:hover { transform: translateY(-4px); }
+    .news-card:hover .card-img { transform: scale(1.05); }
+
+    .news-card.featured {
+      grid-row: 1 / 3;
+    }
+
+    .card-img-wrap { overflow: hidden; aspect-ratio: 16/10; }
+    .news-card.featured .card-img-wrap { aspect-ratio: 3/4; height: 100%; }
+    .news-card.featured { display: flex; flex-direction: column; }
+    .news-card.featured .card-img-wrap { flex: 1; aspect-ratio: unset; }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+      display: block;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-category {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #fff;
+    }
+    .news-card.featured .card-title { font-size: 28px; }
+    .card-date { margin-top: 10px; font-size: 12px; color: var(--gray); }
+
+    .card-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.85) 0%, transparent 100%);
+      padding: 28px 24px 20px;
+    }
+    .news-card.featured .card-overlay .card-title { font-size: 30px; }
+
+    /* ─── NEXT MATCH ─────────────────────────────── */
+    .match-section {
+      background: linear-gradient(135deg, var(--blue) 0%, #002855 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .match-section::before {
+      content: 'MATCH DAY';
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 120px;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: 10px;
+      pointer-events: none;
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 32px;
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .match-team { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .team-badge {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+      font-weight: 900;
+      box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    }
+    .team-home { background: linear-gradient(135deg, var(--blue) 50%, var(--red) 50%); color: #fff; box-shadow: 0 0 0 3px var(--gold); }
+    .team-away { background: linear-gradient(135deg, #1a1a2e, #2d2d54); color: #fff; border: 2px solid rgba(255,255,255,.2); }
+    .team-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: #fff; }
+    .team-country { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 2px; text-transform: uppercase; }
+
+    .match-vs {
+      text-align: center;
+    }
+    .vs-text { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 4px; }
+    .match-date { font-size: 12px; font-weight: 600; letter-spacing: 2px; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-top: 4px; }
+    .match-time { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: #fff; line-height: 1; margin-top: 4px; }
+    .match-venue { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; letter-spacing: 1px; }
+
+    .match-btn { display: block; margin: 40px auto 0; }
+
+    /* ─── STATS BAR ──────────────────────────────── */
+    .stats-section {
+      background: var(--dark);
+      padding: 56px 64px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .stat-item {
+      background: var(--mid);
+      padding: 36px 28px;
+      text-align: center;
+      transition: background .2s;
+    }
+    .stat-item:hover { background: #1c1c30; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-top: 8px; }
+
+    /* ─── SQUAD ──────────────────────────────────── */
+    .squad-section { background: var(--mid); }
+
+    .squad-filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .squad-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .player-card {
+      background: var(--dark);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform .25s;
+      aspect-ratio: 3/4;
+    }
+    .player-card:hover { transform: translateY(-6px); }
+    .player-card:hover .player-img { transform: scale(1.06); }
+
+    .player-num {
+      position: absolute;
+      top: 12px; right: 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: rgba(255,255,255,0.12);
+      line-height: 1;
+      z-index: 1;
+    }
+
+    .player-img {
+      width: 100%;
+      height: 70%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform .4s ease;
+      display: block;
+      background: linear-gradient(160deg, #1c2a4a, #3a1220);
+    }
+
+    .player-placeholder {
+      width: 100%;
+      height: 70%;
+      background: linear-gradient(160deg, #1c2a4a 0%, #3a1220 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      color: rgba(255,255,255,0.1);
+    }
+
+    .player-info {
+      padding: 14px;
+      background: var(--dark);
+    }
+    .player-pos {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .player-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    /* ─── COMPETITION BANNER ─────────────────────── */
+    .competitions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 72px 64px;
+      background: var(--dark);
+    }
+    .comp-card {
+      border-radius: 8px;
+      padding: 36px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .25s;
+    }
+    .comp-card:hover { transform: translateY(-4px); }
+    .comp-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      transition: opacity .25s;
+    }
+    .comp-card:hover::before { opacity: .22; }
+
+    .comp-1 { background: linear-gradient(135deg, #002855, #004098); border: 1px solid rgba(0,100,200,0.3); }
+    .comp-2 { background: linear-gradient(135deg, #3a0020, #8a0040); border: 1px solid rgba(165,0,68,0.3); }
+    .comp-3 { background: linear-gradient(135deg, #2a2000, #5a4200); border: 1px solid rgba(237,187,0,0.3); }
+
+    .comp-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+      filter: grayscale(20%);
+    }
+    .comp-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 3px;
+      color: #fff;
+    }
+    .comp-pos {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .comp-detail { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+    /* ─── FOOTER ─────────────────────────────────── */
+    footer {
+      background: #060610;
+      border-top: 1px solid var(--border);
+      padding: 56px 64px 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 4px;
+      color: #fff;
+    }
+    .footer-brand p {
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--gray);
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a {
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .footer-col a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p { font-size: 12px; color: var(--gray); }
+
+    .social-links { display: flex; gap: 12px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      background: var(--mid);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      font-size: 14px;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .social-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+    /* ─── UTILITY ────────────────────────────────── */
+    .header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 0;
+    }
+    .see-all {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--gold);
+      transition: color .15s;
+    }
+    .see-all:hover { color: #fff; border-color: #fff; }
+
+    /* ─── RESPONSIVE QUICKFIX ────────────────────── */
+    @media (max-width: 900px) {
+      section { padding: 48px 24px; }
+      nav { padding: 0 20px; }
+      .hero-content { padding: 0 24px 80px; }
+      .nav-links { display: none; }
+      .news-grid { grid-template-columns: 1fr; }
+      .news-card.featured { grid-row: auto; }
+      .squad-grid { grid-template-columns: repeat(3, 1fr); }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .competitions { grid-template-columns: 1fr; padding: 48px 24px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .match-grid { grid-template-columns: 1fr; gap: 20px; }
+      .stats-section { padding: 56px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ribbon -->
+<div class="ribbon">
+  🔵🔴 Next Futsal home match — <a href="#">Buy Tickets Now →</a>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-badge">MPC</div>
+    <div>
+      <div class="logo-text">My Prototype Club</div>
+      <div class="logo-sub">Founded 1999</div>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#">Football</a></li>
+    <li><a href="#" class="active">Futsal</a></li>
+    <li><a href="#">Basketball</a></li>
+    <li><a href="#">Handball</a></li>
+    <li><a href="#">News</a></li>
+    <li><a href="#">Club</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <a href="#" class="btn-shop">Shop</a>
+    <a href="#" class="btn-tickets">Buy Tickets</a>
+  </div>
+</nav>
+
+<!-- Score Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <div class="ticker-label">
+      <span class="ticker-dot"></span>
+      Live Results
+    </div>
+    <div class="ticker-scroll">
+      <div class="ticker-track" id="tickerTrack">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Futsal · 2024 / 25 Season</div>
+    <h1>Play Bold.<br><span>Win Together.</span></h1>
+    <p class="hero-sub">The Prototype Futsal team — five players, one heart. Witness fast-paced indoor football at its finest.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">Get Tickets</a>
+      <a href="#" class="btn-secondary">Season Recap ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- News -->
+<section class="news-section">
+  <div class="header-row" style="margin-bottom: 36px;">
+    <div>
+      <div class="section-label">Latest</div>
+      <h2 class="section-title">Club <span>News</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <a href="#" class="see-all">All News</a>
+  </div>
+
+  <div class="news-grid">
+    <!-- Featured -->
+    <div class="news-card featured">
+      <div class="card-img-wrap">
+        <img class="card-img" src="https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=800&q=80" alt="Futsal match action"/>
+      </div>
+      <div class="card-overlay">
+        <div class="card-category">Match Report</div>
+        <div class="card-title">Prototype win epic quarter-final in overtime thriller</div>
+        <div class="card-date">16 Apr 2026</div>
+      </div>
+    </div>
+
+    <!-- Small 1 -->
+    <div class="news-card">
+      <div class="card-img-wrap">
+        <img class="card-img" src="https://images.unsplash.com/photo-1510125594188-5afc74c8cc41?w=600&q=80" alt="Training session"/>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Training</div>
+        <div class="card-title">Pre-match preparations for the big derby showdown</div>
+        <div class="card-date">15 Apr 2026</div>
+      </div>
+    </div>
+
+    <!-- Small 2 -->
+    <div class="news-card">
+      <div class="card-img-wrap">
+        <img class="card-img" src="https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=600&q=80" alt="Press conference"/>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Interview</div>
+        <div class="card-title">Coach Martínez: "We are ready for every challenge"</div>
+        <div class="card-date">14 Apr 2026</div>
+      </div>
+    </div>
+
+    <!-- Small 3 -->
+    <div class="news-card">
+      <div class="card-img-wrap">
+        <img class="card-img" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80" alt="Trophy"/>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Transfer</div>
+        <div class="card-title">New signing: Marcos Ayala joins squad until 2028</div>
+        <div class="card-date">13 Apr 2026</div>
+      </div>
+    </div>
+
+    <!-- Small 4 -->
+    <div class="news-card">
+      <div class="card-img-wrap">
+        <img class="card-img" src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80" alt="Stadium"/>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Community</div>
+        <div class="card-title">Prototype Academy opens youth futsal scholarship programme</div>
+        <div class="card-date">12 Apr 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Next Match -->
+<section class="match-section">
+  <div class="section-label" style="text-align:center;">Upcoming Fixture</div>
+  <h2 class="section-title" style="text-align:center;">Next <span style="color:var(--gold)">Match</span></h2>
+  <div class="section-divider" style="margin: 14px auto 48px;"></div>
+
+  <div class="match-grid">
+    <div class="match-team">
+      <div class="team-badge team-home">MPC</div>
+      <div class="team-name">My Prototype Club</div>
+      <div class="team-country">Home</div>
+    </div>
+
+    <div class="match-vs">
+      <div class="vs-text">VS</div>
+      <div class="match-time">20:00</div>
+      <div class="match-date">Saturday · 19 Apr 2026</div>
+      <div class="match-venue">Prototype Arena, Court A</div>
+    </div>
+
+    <div class="match-team">
+      <div class="team-badge team-away">RVS</div>
+      <div class="team-name">Rival Stars FS</div>
+      <div class="team-country">Away</div>
+    </div>
+  </div>
+
+  <a href="#" class="btn-primary match-btn" style="display:block;width:fit-content;">Buy Match Tickets</a>
+</section>
+
+<!-- Stats -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num" data-target="18">0</div>
+      <div class="stat-label">Wins This Season</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="97">0</div>
+      <div class="stat-label">Goals Scored</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="5">0</div>
+      <div class="stat-label">Trophies Won</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="14">0</div>
+      <div class="stat-label">Squad Members</div>
+    </div>
+  </div>
+</div>
+
+<!-- Squad -->
+<section class="squad-section">
+  <div class="header-row" style="margin-bottom: 28px;">
+    <div>
+      <div class="section-label">2024/25</div>
+      <h2 class="section-title">The <span>Squad</span></h2>
+      <div class="section-divider"></div>
+    </div>
+    <a href="#" class="see-all">Full Squad</a>
+  </div>
+
+  <div class="squad-filters">
+    <button class="filter-btn active" onclick="filterSquad(this,'all')">All</button>
+    <button class="filter-btn" onclick="filterSquad(this,'gk')">Goalkeeper</button>
+    <button class="filter-btn" onclick="filterSquad(this,'def')">Defender</button>
+    <button class="filter-btn" onclick="filterSquad(this,'mid')">Pivot</button>
+    <button class="filter-btn" onclick="filterSquad(this,'fwd')">Forward</button>
+  </div>
+
+  <div class="squad-grid" id="squadGrid">
+    <!-- injected by JS -->
+  </div>
+</section>
+
+<!-- Competitions -->
+<div class="competitions">
+  <div class="comp-card comp-1">
+    <span class="comp-icon">🏆</span>
+    <div class="comp-name">National League</div>
+    <div class="comp-pos">1st Place · 18W / 3D / 1L</div>
+    <div class="comp-detail">12 points clear at the top</div>
+  </div>
+  <div class="comp-card comp-2">
+    <span class="comp-icon">⚽</span>
+    <div class="comp-name">Cup Championship</div>
+    <div class="comp-pos">Quarter-Final Stage</div>
+    <div class="comp-detail">Next match: 19 Apr vs Rival Stars FS</div>
+  </div>
+  <div class="comp-card comp-3">
+    <span class="comp-icon">🌍</span>
+    <div class="comp-name">Continental Cup</div>
+    <div class="comp-pos">Group Stage · Pool B</div>
+    <div class="comp-detail">2 wins from 2 matches played</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h3>My Prototype Club</h3>
+      <p>Founded in 1999, My Prototype Club is committed to excellence in sport, community engagement, and developing the next generation of futsal talent.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Futsal</h4>
+      <ul>
+        <li><a href="#">First Team</a></li>
+        <li><a href="#">Results</a></li>
+        <li><a href="#">Fixtures</a></li>
+        <li><a href="#">Stats</a></li>
+        <li><a href="#">Academy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Club</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">History</a></li>
+        <li><a href="#">Trophies</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Membership</a></li>
+        <li><a href="#">Tickets</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 My Prototype Club. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#" class="social-btn" title="Twitter/X">𝕏</a>
+      <a href="#" class="social-btn" title="Instagram">📸</a>
+      <a href="#" class="social-btn" title="YouTube">▶</a>
+      <a href="#" class="social-btn" title="Facebook">f</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Ticker ── */
+  const matches = [
+    { home:'MPC', away:'FC Nordhavn', score:'4–2', status:'FT' },
+    { home:'Thunders FS', away:'MPC', score:'1–3', status:'FT' },
+    { home:'MPC', away:'Rival Stars', score:'–', status:'SAT 20:00', live:false, upcoming:true },
+    { home:'Dynamo CF', away:'MPC', score:'2–5', status:'FT' },
+    { home:'MPC', away:'Atlas Futsal', score:'3–1', status:'FT' },
+    { home:'Red Wolves', away:'MPC', score:'Live', status:'LIVE', live:true },
+  ];
+
+  const track = document.getElementById('tickerTrack');
+  const doubled = [...matches, ...matches]; // duplicate for seamless scroll
+  doubled.forEach(m => {
+    const cls = m.live ? 'live' : m.upcoming ? 'upcoming' : 'ft';
+    track.innerHTML += `
+      <div class="ticker-item">
+        <span class="ticker-teams">${m.home} vs ${m.away}</span>
+        <span class="ticker-score">${m.score}</span>
+        <span class="ticker-status ${cls}">${m.status}</span>
+      </div>`;
+  });
+
+  /* ── Squad ── */
+  const players = [
+    { name:'Diego Varela', pos:'Goalkeeper', num:'1', role:'gk', color:'#1c2a4a,#3a1220' },
+    { name:'Lucas Brandt', pos:'Defender', num:'3', role:'def', color:'#002855,#004098' },
+    { name:'Mateo Ruiz', pos:'Defender', num:'4', role:'def', color:'#002855,#004098' },
+    { name:'Andrei Pop', pos:'Pivot', num:'7', role:'mid', color:'#3a0020,#8a0040' },
+    { name:'Carlos Osei', pos:'Forward', num:'9', role:'fwd', color:'#2a2000,#5a4200' },
+    { name:'Yusuf Demirci', pos:'Forward', num:'10', role:'fwd', color:'#2a2000,#5a4200' },
+    { name:'Hamid Naseri', pos:'Pivot', num:'8', role:'mid', color:'#3a0020,#8a0040' },
+    { name:'Ivan Sorokin', pos:'Goalkeeper', num:'12', role:'gk', color:'#1c2a4a,#3a1220' },
+    { name:'Tomás Žiak', pos:'Defender', num:'5', role:'def', color:'#002855,#004098' },
+    { name:'Marcos Ayala', pos:'Forward', num:'11', role:'fwd', color:'#2a2000,#5a4200' },
+  ];
+
+  function renderSquad(filter) {
+    const grid = document.getElementById('squadGrid');
+    const list = filter === 'all' ? players : players.filter(p => p.role === filter);
+    grid.innerHTML = list.map(p => `
+      <div class="player-card" data-role="${p.role}">
+        <div class="player-num">${p.num}</div>
+        <div class="player-placeholder" style="background:linear-gradient(160deg,#${p.color.split(',')[0].replace('#','')} 0%,#${p.color.split(',')[1].replace('#','')} 100%)">
+          👤
+        </div>
+        <div class="player-info">
+          <div class="player-pos">${p.pos}</div>
+          <div class="player-name">${p.name}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function filterSquad(btn, role) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderSquad(role);
+  }
+
+  renderSquad('all');
+
+  /* ── Counter animation ── */
+  const counters = document.querySelectorAll('.stat-num[data-target]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current;
+        if (current >= target) clearInterval(timer);
+      }, 35);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
